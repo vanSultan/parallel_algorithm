@@ -1,0 +1,95 @@
+\newpage
+\subsection{GOAL OF LABORATORY WORK}\label{subsec:goal}
+
+The purpose of this work is to implement two parallel algorithms for multiplying two matrices $A$ and $B$ using \textit{MPI} and determining the speedup for multiplying.
+
+\subsection{TASK DEFINITION}\label{subsec:task_definition}
+
+The problem is to obtain the result of multiplying two randomly given matrices, and determine which algorithm is working faster.
+The result of multiplying matrices $A(N, N)$ and $B(N, N)$ is a square matrix $C(N, N)$, each element of which is the scalar product of the corresponding rows of matrix $A$ and columns of matrix $B$.
+It is assumed that this problem will be solved by following these steps:
+\begin{enumerate}
+    \item Implement the serial version of the Matrix Multiplication.
+    \item Chose the problem decomposition.
+    \item Define sub-problems and size of each sub-problem.
+    \item Define information dependencies between sub-problems.
+    \item Implement the parallel algorithm\#1 of matrix multiplication.
+    \item Implement the parallel algorithm\#2 of matrix multiplication using MPI. Derived Data Types (define and use columns).
+    \item Determine the speedup.
+\end{enumerate}
+
+\subsection{BRIEF THEORY}\label{subsec:brief_theory}
+
+The sequential algorithm is represented by three nested loops and is focused on the sequential calculation of the rows of the resulting matrix $C$.
+
+This algorithm is iterative and focuses on the sequential calculation of the rows of matrix $C$. It is assumed that $n\times n\times n$ multiplication operations and the same number of addition operations of the elements of the original matrices are performed. The number of operations performed is of order $O(n^3)$.
+
+Since each element of the resulting matrix is a scalar product of the row and column of the original matrices, then to calculate all the elements of the matrix $C$ size $n\times n$, it is necessary to perform $n^2(2n-1)$ scalar operations and spend time $T_1 = n^2(2n-1)t$, where $t$ is the time to perform one elementary scalar operation.
+
+\subsection{ALGORITHM (METHOD) OF IMPLEMENTATION}\label{subsec:algorithm}
+
+We describe a parallel implementation of the product of matrices.
+
+\begin{enumerate}
+    \item {
+        Matrices distributed by block rows:
+        \begin{itemize}
+            \item matrix order $n$, $p$ processes;
+            \item assume $n$ evenly divisible by $p$, $\overline{n} = \frac{n}{p}$;
+            \item process $q$ assigned rows $q\overline{n}, q\overline{n} + 1, \dots, (q + 1)\overline{n} - 1$.
+        \end{itemize}
+    } \item Gather block of $\overline{n}$ columns onto each process.
+    \item Each process forms dot product of its rows with the gathered columns.
+    \item Repeat preceding two steps for each successive block of $\overline{n}$ columns.
+    \item Local submatrices stored as linear arrays in row-major order.
+    \item We don't want to overwrite $B$. So we allocate a block of order $n\times \overline{n}$ to store the column block.
+    \item Observe that on any process, the array entries that it contributes to the column block are not contiguous. The entries are grouped into subblocks of size $\overline{n}$ and there are $\overline{n}$ of them. Between the starts of successive rows in any column block, there are $n$ elements.
+    \item {
+        Thus, we use the following arguments to $MPI\_type\_vector$:
+        \begin{itemize}
+            \item first argument is the number of rows or sublocks contributed by the process: $\overline{n}$;
+            \item second argument is the number of contiguous elements to take from a row or sublock: $\overline{n}$;
+            \item third argument is the number of elements between the starts of successive blocks: $n$;
+            \item fourth argument is the type of the elements;
+            \item fifth argument is storage for the new type.
+        \end{itemize}
+    } \item After creating the type, with the call to $MPI\_Type\_vector$, before the type can be used in communication, it has to be $committed$. This allows the system to make optimizations that wouldn't be necessary if the type were only being used to make a more complex type.
+    \item The $Allgather$ uses the address of the start of the block as its first argument. The count is only 1, since $gather\_mpi\_t$ species the entire block.
+    \item Note that in the column block, the entries contributed by a process are contiguous. Hence we just use a count of $\overline{n}^2$ and a type of $MPI\_Float$. This says the received elements will be copied into a contiguous sequence of locations in the destination array.
+\end{enumerate}
+
+\subsection{RESULT AND EXPERIMENTS}\label{subsec:result_exp}
+
+The results of measurements for a computer with 4 physical and 8 logical cores are shown below (Table~\ref{tbl:measure}).
+
+\begin{table}[H]
+\caption{Average results of 200 measurements}
+\begin{tabular}{cc|c|c|c|c|c|}
+\cline{3-7}
+                                                   &    & \multicolumn{4}{c|}{size}                 & \multirow{2}{*}{average time, s} \\ \cline{3-6}
+                                                   &    & 100x100 & 500x500 & 1000x1000 & 5000x5000 &                                  \\ \hline
+\multicolumn{2}{|c|}{serial}                            & 0.002   & 0.274   & 2.488     & 312.853   & 78.904                           \\ \hline
+\multicolumn{1}{|c|}{\multirow{3}{*}{algorithm\#1}} & 4  & 0.002   & 0.128   & 0.644     & 105.111   & 26.471                           \\ \cline{2-7}
+\multicolumn{1}{|c|}{}                             & 8  & 0.002   & 0.070   & 0.544     & 90.668    & 22.821                           \\ \cline{2-7}
+\multicolumn{1}{|c|}{}                             & 16 & 0.005   & 0.099   & 0.627     & 93.711    & 23.611                           \\ \hline
+\multicolumn{1}{|c|}{\multirow{3}{*}{algorithm\#2}} & 4  & 0.002   & 0.104   & 0.702     & 106.237   & 26.761                           \\ \cline{2-7}
+\multicolumn{1}{|c|}{}                             & 8  & 0.002   & 0.067   & 0.525     & 89.415    & 22.502                           \\ \cline{2-7}
+\multicolumn{1}{|c|}{}                             & 16 & 0.004   & 0.089   & 0.624     & 95.641    & 24.090                           \\ \hline
+\end{tabular}
+\label{tbl:measure}
+\end{table}
+
+As can be seen from the results, on 4, 8, 16 threads the developed programs for algorithm\#1 and algorithm\#2 works much faster and with an increase in the size of the input matrices N, this becomes more and more noticeable.
+However, an algorithm that uses MPI derived data type works a bit faster.
+
+It is also worth noting that with 16 threads, pseudo-parallelism begins, when one thread takes resources from another.
+
+\subsection{CONCLUSION}\label{subsec:conclusion}
+
+In this paper, we implemented two parallel algorithms for multiplying two matrices $A$ and $B$ using MPI with different methods of transferring data to parallel streams.
+
+As a result of this work, the skill of parallelizing calculations using mpi was obtained, which can be used in the future when working with large-scale projects that require big data reduction.
+
+\subsection{APPENDIX}\label{subsec:appendix}
+
+The source code is located \href{https://github.com/vanSultan/parallel_algorithm/tree/main/lab_02}{here}: \url{https://github.com/vanSultan/parallel_algorithm/tree/main/lab_02}.

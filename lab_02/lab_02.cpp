@@ -3,8 +3,6 @@
 #include <time.h>
 #include <stdio.h>
 
-#define MATRIX_SIZE 800
-
 void print_matrix(double* a, int size) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++)
@@ -89,27 +87,27 @@ void tape_multiplication(double*& a, double*& b, double*& c, int size) {
 	delete[] buffer_c;
 }
 
-void parallel_matrix_mult(float local_A[], float local_B[], float local_C[], int n, int n_bar, int p) {
-	float* B_cols;
-	MPI_Datatype gather_mpi_t;
-	int block;
-	allocate_matrix(&B_cols, n, n_bar);
-	MPI_Type_vector(n_bar, n_bar, n, MPI_FLOAT, &gather_mpi_t);
-	MPI_Type_commit(&gather_mpi_t);
-	for (block = 0; block < p; block++) {
-		MPI_Allgather(local_B + block * n_bar, 1, gather_mpi_t, B_cols, n_bar * n_bar, MPI_FLOAT, MPI_COMM_WORLD);
-		matrix_mult(local_A, B_cols, local_C, n_bar, n, block);
-	}
-	free(B_cols);
-	MPI_Type_free(&gather_mpi_t);
-}
+//void parallel_matrix_mult(float local_A[], float local_B[], float local_C[], int n, int n_bar, int p) {
+//	float* B_cols;
+//	MPI_Datatype gather_mpi_t;
+//	int block;
+//	allocate_matrix(&B_cols, n, n_bar);
+//	MPI_Type_vector(n_bar, n_bar, n, MPI_FLOAT, &gather_mpi_t);
+//	MPI_Type_commit(&gather_mpi_t);
+//	for (block = 0; block < p; block++) {
+//		MPI_Allgather(local_B + block * n_bar, 1, gather_mpi_t, B_cols, n_bar * n_bar, MPI_FLOAT, MPI_COMM_WORLD);
+//		matrix_mult(local_A, B_cols, local_C, n_bar, n, block);
+//	}
+//	free(B_cols);
+//	MPI_Type_free(&gather_mpi_t);
+//}
 
 
 int main(int argc, char** argv) {
 	srand(time(NULL));
 	double* a = NULL; double* b = NULL; double* c = NULL;
 	double tick, tack;
-	int proc_size, proc_rank, size = MATRIX_SIZE;
+	int proc_size, proc_rank, size = 5000;
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &proc_size);
@@ -128,7 +126,7 @@ int main(int argc, char** argv) {
 	tack = MPI_Wtime();
 	
 	if (proc_rank == 0) {
-		printf("time: %f7.4", tack - tick);
+		printf("time: %2.4f", tack - tick);
 	}
 
 	MPI_Finalize();
