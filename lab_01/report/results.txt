@@ -1,0 +1,139 @@
+eps: 1e-06; [a, b]: [1e-05, 0.0001]
+threads count: 4
+trapezoid_routine: 293590 ns
+trapezoid_routine_atomic: 291027 ns
+trapezoid_routine_critical_section: 307275 ns
+trapezoid_routine_locks: 295041 ns
+trapezoid_routine_reduction: 305383 ns
+threads count: 8
+trapezoid_routine: 315041 ns
+trapezoid_routine_atomic: 308522 ns
+trapezoid_routine_critical_section: 303116 ns
+trapezoid_routine_locks: 305403 ns
+trapezoid_routine_reduction: 310459 ns
+threads count: 16
+trapezoid_routine: 310077 ns
+trapezoid_routine_atomic: 302876 ns
+trapezoid_routine_critical_section: 312999 ns
+trapezoid_routine_locks: 305889 ns
+trapezoid_routine_reduction: 315467 ns
+
+eps: 1e-06; [a, b]: [0.0001, 0.001]
+threads count: 4
+trapezoid_routine: 146439 ns
+trapezoid_routine_atomic: 147077 ns
+trapezoid_routine_critical_section: 154096 ns
+trapezoid_routine_locks: 153411 ns
+trapezoid_routine_reduction: 147126 ns
+threads count: 8
+trapezoid_routine: 146722 ns
+trapezoid_routine_atomic: 157469 ns
+trapezoid_routine_critical_section: 155447 ns
+trapezoid_routine_locks: 152461 ns
+trapezoid_routine_reduction: 159286 ns
+threads count: 16
+trapezoid_routine: 155403 ns
+trapezoid_routine_atomic: 167132 ns
+trapezoid_routine_critical_section: 157592 ns
+trapezoid_routine_locks: 163900 ns
+trapezoid_routine_reduction: 156434 ns
+
+eps: 1e-06; [a, b]: [0.001, 0.01]
+threads count: 4
+trapezoid_routine: 78778 ns
+trapezoid_routine_atomic: 73347 ns
+trapezoid_routine_critical_section: 72620 ns
+trapezoid_routine_locks: 72248 ns
+trapezoid_routine_reduction: 72155 ns
+threads count: 8
+trapezoid_routine: 76092 ns
+trapezoid_routine_atomic: 73526 ns
+trapezoid_routine_critical_section: 73723 ns
+trapezoid_routine_locks: 74783 ns
+trapezoid_routine_reduction: 75822 ns
+threads count: 16
+trapezoid_routine: 76374 ns
+trapezoid_routine_atomic: 78416 ns
+trapezoid_routine_critical_section: 76875 ns
+trapezoid_routine_locks: 83902 ns
+trapezoid_routine_reduction: 76045 ns
+
+eps: 1e-06; [a, b]: [0.01, 0.1]
+threads count: 4
+trapezoid_routine: 38008 ns
+trapezoid_routine_atomic: 37440 ns
+trapezoid_routine_critical_section: 35813 ns
+trapezoid_routine_locks: 36882 ns
+trapezoid_routine_reduction: 39624 ns
+threads count: 8
+trapezoid_routine: 37226 ns
+trapezoid_routine_atomic: 36758 ns
+trapezoid_routine_critical_section: 37305 ns
+trapezoid_routine_locks: 39561 ns
+trapezoid_routine_reduction: 36522 ns
+threads count: 16
+trapezoid_routine: 37240 ns
+trapezoid_routine_atomic: 35959 ns
+trapezoid_routine_critical_section: 36871 ns
+trapezoid_routine_locks: 36216 ns
+trapezoid_routine_reduction: 37140 ns
+
+eps: 1e-06; [a, b]: [0.1, 1]
+threads count: 4
+trapezoid_routine: 34801 ns
+trapezoid_routine_atomic: 35063 ns
+trapezoid_routine_critical_section: 34820 ns
+trapezoid_routine_locks: 37240 ns
+trapezoid_routine_reduction: 34839 ns
+threads count: 8
+trapezoid_routine: 34843 ns
+trapezoid_routine_atomic: 35222 ns
+trapezoid_routine_critical_section: 36612 ns
+trapezoid_routine_locks: 35236 ns
+trapezoid_routine_reduction: 35554 ns
+threads count: 16
+trapezoid_routine: 35311 ns
+trapezoid_routine_atomic: 35003 ns
+trapezoid_routine_critical_section: 35282 ns
+trapezoid_routine_locks: 39323 ns
+trapezoid_routine_reduction: 37282 ns
+
+eps: 1e-06; [a, b]: [1, 10]
+threads count: 4
+trapezoid_routine: 3325 ns
+trapezoid_routine_atomic: 3166 ns
+trapezoid_routine_critical_section: 3225 ns
+trapezoid_routine_locks: 3169 ns
+trapezoid_routine_reduction: 3414 ns
+threads count: 8
+trapezoid_routine: 3208 ns
+trapezoid_routine_atomic: 2884 ns
+trapezoid_routine_critical_section: 3058 ns
+trapezoid_routine_locks: 3881 ns
+trapezoid_routine_reduction: 2886 ns
+threads count: 16
+trapezoid_routine: 3162 ns
+trapezoid_routine_atomic: 2884 ns
+trapezoid_routine_critical_section: 3727 ns
+trapezoid_routine_locks: 2882 ns
+trapezoid_routine_reduction: 2894 ns
+
+eps: 1e-06; [a, b]: [10, 100]
+threads count: 4
+trapezoid_routine: 3236 ns
+trapezoid_routine_atomic: 3136 ns
+trapezoid_routine_critical_section: 3131 ns
+trapezoid_routine_locks: 3159 ns
+trapezoid_routine_reduction: 3132 ns
+threads count: 8
+trapezoid_routine: 3165 ns
+trapezoid_routine_atomic: 3137 ns
+trapezoid_routine_critical_section: 3187 ns
+trapezoid_routine_locks: 2841 ns
+trapezoid_routine_reduction: 2841 ns
+threads count: 16
+trapezoid_routine: 2842 ns
+trapezoid_routine_atomic: 3446 ns
+trapezoid_routine_critical_section: 2844 ns
+trapezoid_routine_locks: 2842 ns
+trapezoid_routine_reduction: 2843 ns
