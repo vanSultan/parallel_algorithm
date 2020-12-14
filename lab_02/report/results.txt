@@ -1,0 +1,28 @@
+serial         100: 0.002
+serial         500: 0.274
+serial         1000: 2.488
+serial         5000: 312.853
+4 threads[I]   100: 0.002
+4 threads[I]   500: 0.128
+4 threads[I]   1000: 0.644
+4 threads[I]   5000: 105.111
+8 threads[I]   100: 0.002
+8 threads[I]   500: 0.070
+8 threads[I]   1000: 0.544
+8 threads[I]   5000: 90.668
+16 threads[I]  100: 0.005
+16 threads[I]  500: 0.099
+16 threads[I]  1000: 0.627
+16 threads[I]  5000: 93.711
+4 threads[II]  100: 0.002
+4 threads[II]  500: 0.104
+4 threads[II]  1000: 0.702
+4 threads[II]  5000: 106.237
+8 threads[II]  100: 0.002
+8 threads[II]  500: 0.067
+8 threads[II]  1000: 0.525
+8 threads[II]  5000: 89.415
+16 threads[II] 100: 0.004
+16 threads[II] 500: 0.089
+16 threads[II] 1000: 0.624
+16 threads[II] 5000: 95.641
